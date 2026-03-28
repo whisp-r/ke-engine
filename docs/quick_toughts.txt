@@ -1,4 +1,0 @@
-items done
-effects not
-conditions done (only for choices not text)
-flags done
