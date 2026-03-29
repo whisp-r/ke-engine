@@ -20,9 +20,8 @@ ActionFunc ActionFactory::Create(const nlohmann::json &actionData)
         if (type == MODIFY_EFFECT)
             return CreateModifyEffect(actionData);
     }
-    std::cerr << "WARNING: Unknown action type: " << type << std::endl;
+    std::cerr << "[WARNING][Action] Unknown action type: " << type << std::endl;
     throw;
-    // return [](GameState &) {};
 }
 
 ActionFunc ActionFactory::CreateModifyItem(const nlohmann::json &data)
@@ -34,7 +33,7 @@ ActionFunc ActionFactory::CreateModifyItem(const nlohmann::json &data)
 
     return [itemId, quantity](GameState &gameState)
     {
-        std::cout << "ACTION: Giving " << quantity << " " << itemId << std::endl;
+        std::cout << "[Action] Modify item " << itemId << " by " << quantity << std::endl;
         gameState.ModifyItem(itemId, quantity);
     };
 }
@@ -47,7 +46,7 @@ ActionFunc ActionFactory::CreateSetFlag(const nlohmann::json &data)
 
     return [flagId, value](GameState &gameState)
     {
-        std::cout << "ACTION: Setting flag: " << flagId << " " << value << std::endl;
+        std::cout << "[Action] Setting flag: " << flagId << " to " << value << std::endl;
         gameState.SetFlag(flagId, value);
     };
 }
@@ -60,7 +59,7 @@ ActionFunc ActionFactory::CreateSetVariable(const nlohmann::json &data)
 
     return [varId, value](GameState &gameState)
     {
-        std::cout << "ACTION: Set variable " << varId << " = " << value << std::endl;
+        std::cout << "[Action] Set variable " << varId << " to " << value << std::endl;
         gameState.SetVariable(varId, value);
     };
 }
@@ -73,7 +72,7 @@ ActionFunc ActionFactory::CreateModifyVariable(const nlohmann::json &data)
 
     return [varId, change](GameState &gameState)
     {
-        std::cout << "ACTION: Modify variable " << varId << " by " << change << std::endl;
+        std::cout << "[Action] Modify variable " << varId << " by " << change << std::endl;
         gameState.ModifyVariable(varId, change);
     };
 }
@@ -87,7 +86,7 @@ ActionFunc ActionFactory::CreateModifyEffect(const nlohmann::json &data)
 
     return [effectId, quantity](GameState &gameState)
     {
-        std::cout << "ACTION: Inflicting " << quantity << " " << effectId << std::endl;
+        std::cout << "[Action] Modify effect " << effectId << " by " << quantity << std::endl;
         gameState.ModifyEffect(effectId, quantity);
     };
 }
