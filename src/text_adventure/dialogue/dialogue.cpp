@@ -7,7 +7,7 @@ DialogueNode::DialogueNode(const std::string nodeId,
 {
     if (nodeId.empty())
     {
-        std::cerr << "WARNING: Created DialogueNode with empty nodeId" << std::endl;
+        std::cerr << "[WARNING][DialogueNode] Created DialogueNode with empty nodeId" << std::endl;
     }
 }
 
@@ -20,11 +20,11 @@ void DialogueNode::AddChoice(const std::string &text, const std::string &target)
 {
     if (text.empty())
     {
-        std::cerr << "WARNING: Adding choice with empty text in node: " << nodeId << std::endl;
+        std::cerr << "[WARNING][DialogueNode] Adding choice with empty text in node: " << nodeId << std::endl;
     }
     if (target.empty())
     {
-        std::cerr << "WARNING: Adding choice with empty target in node: " << nodeId << std::endl;
+        std::cerr << "[WARNING][DialogueNode] Adding choice with empty target in node: " << nodeId << std::endl;
     }
 
     choices.emplace_back(text, target);
@@ -39,7 +39,7 @@ DialogueEntry &DialogueNode::GetEntry(int index)
 {
     if (index < 0 || index >= static_cast<int>(entries.size()))
     {
-        std::string error = "GetEntry index out of bounds: " + std::to_string(index) +
+        std::string error = "[ERROR][DialogueNode] GetEntry index out of bounds: " + std::to_string(index) +
                             " (size: " + std::to_string(entries.size()) +
                             ") in node: " + nodeId;
         throw std::out_of_range(error);
@@ -57,11 +57,11 @@ void DialogueNode::AddChoice(Choice choice)
 {
     if (choice.GetText().empty())
     {
-        std::cerr << "WARNING: Adding choice with empty text in node: " << nodeId << std::endl;
+        std::cerr << "[WARNING][DialogueNode] Adding choice with empty text in node: " << nodeId << std::endl;
     }
     if (choice.GetTargetNodeId().empty())
     {
-        std::cerr << "WARNING: Adding choice with empty target in node: " << nodeId << std::endl;
+        std::cerr << "[WARNING][DialogueNode] Adding choice with empty target in node: " << nodeId << std::endl;
     }
 
     choices.push_back(std::move(choice));
@@ -86,7 +86,7 @@ void DialogueNode::ExecuteEntryActions(GameState &gameState, const int index)
 {
     if (index < 0 || index >= static_cast<int>(entries.size()))
     {
-        std::cerr << "ERROR: ExecuteEntryActions index out of bounds: "
+        std::cerr << "[ERROR][DialogueNode] ExecuteEntryActions index out of bounds: "
                   << index << " in node: " << nodeId << std::endl;
         return;
     }
@@ -101,7 +101,7 @@ void DialogueNode::ExecuteEntryActions(GameState &gameState, const int index)
             }
             catch (const std::exception &e)
             {
-                std::cerr << "ERROR: Action execution failed in node "
+                std::cerr << "[ERROR][DialogueNode] Action execution failed in node "
                           << nodeId << " entry " << index << ": "
                           << e.what() << std::endl;
             }
@@ -137,7 +137,7 @@ const DialogueEntry &DialogueNode::GetEntry(int index) const
 {
     if (index < 0 || index >= static_cast<int>(entries.size()))
     {
-        std::string error = "GetEntry index out of bounds: " + std::to_string(index) +
+        std::string error = "[ERROR][DialogueNode] GetEntry index out of bounds: " + std::to_string(index) +
                             " (size: " + std::to_string(entries.size()) +
                             ") in node: " + nodeId;
         throw std::out_of_range(error);
