@@ -1,4 +1,5 @@
 _deps
+**/*.cache
 .direnv
 .vscode
 build
