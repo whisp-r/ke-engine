@@ -26,12 +26,10 @@ void KeEngine::Init(const std::string &itemsFile,
         configLoader.LoadFromFile(configFile);
 
         dialogueManager.LoadStory(storyFile, configFile);
-        return true;
     }
     catch (const std::exception &e)
     {
-        std::cerr << "Engine initialization failed: " << e.what() << std::endl;
-        return false;
+        std::cerr << "[KeEngine] Engine initialization failed: " << e.what() << std::endl;
     }
 }
 

@@ -43,7 +43,7 @@ public:
     KeEngine(bool debug = false);
 
     // Initialize with file paths
-    bool Init(const std::string &itemsFile = GameConsts::files::ITEMS,
+    void Init(const std::string &itemsFile = GameConsts::files::ITEMS,
               const std::string &flagsFile = GameConsts::files::FLAGS,
               const std::string &variablesFile = GameConsts::files::VARIABLES,
               const std::string &storyFile = GameConsts::files::STORY,
