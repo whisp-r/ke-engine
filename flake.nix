@@ -40,6 +40,7 @@
                   with pkgs;
                   [
                     libGL
+                    valgrind
 
                     # X11 dependencies
                     xorg.libX11
