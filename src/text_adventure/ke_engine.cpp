@@ -2,14 +2,14 @@
 
 #include <iostream>
 
-Engine::Engine(bool debug)
+KeEngine::KeEngine(bool debug)
     : gameState(flagRegistry, itemLoader, varRegistry, effectLoader),
       dialogueManager(gameState),
       uiManager(gameState, dialogueManager, debug)
 {
 }
 
-bool Engine::Init(const std::string &itemsFile,
+void KeEngine::Init(const std::string &itemsFile,
                   const std::string &flagsFile,
                   const std::string &variablesFile,
                   const std::string &storyFile,
@@ -35,38 +35,38 @@ bool Engine::Init(const std::string &itemsFile,
     }
 }
 
-void Engine::StartStory(const std::string &startNode)
+void KeEngine::StartStory(const std::string &startNode)
 {
     dialogueManager.SetStartNode(startNode);
     dialogueManager.GoToNode(startNode);
 }
 
-void Engine::Update()
+void KeEngine::Update()
 {
     dialogueManager.Update();
 }
 
-void Engine::DrawUI()
+void KeEngine::DrawUI()
 {
     uiManager.Draw();
 }
 
-void Engine::HandleInput()
+void KeEngine::HandleInput()
 {
     uiManager.HandleInput();
 }
 
-GameState &Engine::GetGameState()
+GameState &KeEngine::GetGameState()
 {
     return gameState;
 }
 
-DialogueManager &Engine::GetDialogueManager()
+DialogueManager &KeEngine::GetDialogueManager()
 {
     return dialogueManager;
 }
 
-const DialogueManager &Engine::GetDialogueManager() const
+const DialogueManager &KeEngine::GetDialogueManager() const
 {
     return dialogueManager;
 }

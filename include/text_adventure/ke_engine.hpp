@@ -23,10 +23,10 @@
 #include "game_constants.hpp"
 #include "helper.hpp"
 
-#include "raylib-cpp.hpp"
+#include <raylib-cpp.hpp>
 #include "json.hpp"
 
-class Engine
+class KeEngine
 {
     ItemLoader itemLoader;
     FlagRegistry flagRegistry;
@@ -40,7 +40,7 @@ class Engine
     bool debug;
 
 public:
-    Engine(bool debug = false);
+    KeEngine(bool debug = false);
 
     // Initialize with file paths
     bool Init(const std::string &itemsFile = GameConsts::files::ITEMS,
