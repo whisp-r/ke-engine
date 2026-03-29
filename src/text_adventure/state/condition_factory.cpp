@@ -48,11 +48,11 @@ ConditionPtr ConditionFactory::CreateFromJSON(const nlohmann::json &data)
     }
     catch (const nlohmann::json::exception &e)
     {
-        std::cerr << "JSON parsing error in condition: " << e.what() << std::endl;
+        std::cerr << "[ERROR][ConditionFactory] JSON parsing error in condition: " << e.what() << std::endl;
     }
     catch (const std::exception &e)
     {
-        std::cerr << "Error creating condition: " << e.what() << std::endl;
+        std::cerr << "[ERROR][ConditionFactory] Creating condition: " << e.what() << std::endl;
     }
 
     return nullptr; // Unknown condition type
