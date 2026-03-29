@@ -23,7 +23,7 @@ void DialogueManager::LoadFromFile(const std::string &filename)
 
     if (!file.is_open())
     {
-        std::cerr << "ERROR: Could not open file: " << filename << std::endl;
+        std::cerr << "[ERROR][DialogueMngr] Could not open file: " << filename << std::endl;
         throw std::runtime_error("");
         // return;
     }
@@ -35,7 +35,7 @@ void DialogueManager::LoadFromFile(const std::string &filename)
     }
     catch (const nlohmann::json::exception &e)
     {
-        std::cerr << "ERROR: JSON parsing failed in " << filename << ": " << e.what() << std::endl;
+        std::cerr << "[ERROR][DialogueMngr] JSON parsing failed in " << filename << ": " << e.what() << std::endl;
         throw std::runtime_error("");
         // return;
     }
@@ -47,7 +47,7 @@ void DialogueManager::LoadAllNodes(const nlohmann::json &data)
 
     if (!data.contains(node::STORY))
     {
-        std::cerr << "ERROR: JSON missing 'story' section" << std::endl;
+        std::cerr << "[ERROR][DialogueMngr] JSON missing 'story' section" << std::endl;
         return;
     }
 
@@ -73,7 +73,7 @@ void DialogueManager::LoadSingleNode(const std::string &nodeId, const nlohmann::
     }
     catch (const std::exception &e)
     {
-        std::cerr << "ERROR loading node '" << nodeId << "': " << e.what() << std::endl;
+        std::cerr << "[ERROR][DialogueMngr] Loading node '" << nodeId << "': " << e.what() << std::endl;
     }
 }
 
@@ -98,7 +98,7 @@ void DialogueManager::LoadNodeEntries(const std::string &nodeId,
         }
         catch (const std::exception &e)
         {
-            std::cerr << "ERROR in node '" << nodeId << "' text entry: " << e.what() << std::endl;
+            std::cerr << "[ERROR][DialogueMngr] In node '" << nodeId << "' text entry: " << e.what() << std::endl;
         }
     }
 }
@@ -109,7 +109,7 @@ RPGText DialogueManager::CreateRPGTextFromJSON(const nlohmann::json &textData)
 
     if (!textData.contains(node::CONTENT))
     {
-        throw std::invalid_argument("Text entry missing 'content' field");
+        throw std::invalid_argument("[ERROR][DialogueMngr] Text entry missing 'content' field");
     }
 
     std::string speaker = textData.value(node::SPEAKER, "");
@@ -148,7 +148,7 @@ std::vector<ActionFunc> DialogueManager::LoadActionsFromJSON(const nlohmann::jso
         }
         catch (const std::exception &e)
         {
-            std::cerr << "ERROR in node '" << nodeId << "' action: " << e.what() << std::endl;
+            std::cerr << "[ERROR][DialogueMngr] In node '" << nodeId << "' action: " << e.what() << std::endl;
         }
     }
 
@@ -175,7 +175,7 @@ void DialogueManager::LoadNodeChoices(const std::string &nodeId,
         }
         catch (const std::exception &e)
         {
-            std::cerr << "ERROR in node '" << nodeId << "' choice: " << e.what() << std::endl;
+            std::cerr << "[ERROR][DialogueMngr] In node '" << nodeId << "' choice: " << e.what() << std::endl;
         }
     }
 }
@@ -186,11 +186,11 @@ Choice DialogueManager::CreateChoiceFromJSON(const nlohmann::json &choiceData,
 
     if (!choiceData.contains(node::TEXT))
     {
-        throw std::invalid_argument("Choice missing 'text' field");
+        throw std::invalid_argument("[ERROR][DialogueMngr] Choice missing 'text' field");
     }
     if (!choiceData.contains(node::TARGET))
     {
-        throw std::invalid_argument("Choice missing 'target' field");
+        throw std::invalid_argument("[ERROR][DialogueMngr] Choice missing 'target' field");
     }
 
     std::string text = choiceData[node::TEXT].get<std::string>();
@@ -221,7 +221,7 @@ void DialogueManager::LoadChoiceConditions(const nlohmann::json &conditionsData,
         }
         catch (const std::exception &e)
         {
-            std::cerr << "ERROR loading condition: " << e.what() << std::endl;
+            std::cerr << "[ERROR][DialogueMngr] Loading condition: " << e.what() << std::endl;
         }
     }
 }
@@ -234,7 +234,7 @@ DialogueNode *DialogueManager::GetNode(const std::string &nodeId)
         return it->second.get();
     }
 
-    std::cerr << "ERROR: Node '" << nodeId << "' not found!" << std::endl;
+    std::cerr << "[ERROR][DialogueMngr] Node '" << nodeId << "' not found" << std::endl;
     return nullptr;
 }
 
@@ -319,7 +319,7 @@ void DialogueManager::SelectChoice(int choiceIndex)
 
     if (choiceIndex < 0 || choiceIndex >= choices.size())
     {
-        std::cerr << "ERROR: Invalid choice index " << choiceIndex << std::endl;
+        std::cerr << "[ERROR][DialogueMngr] Invalid choice index " << choiceIndex << std::endl;
         return;
     }
 
