@@ -40,7 +40,6 @@
                   with pkgs;
                   [
                     libGL
-                    valgrind
 
                     # X11 dependencies
                     xorg.libX11
@@ -60,6 +59,7 @@
                     lcov
                     vcpkg
                     vcpkg-tool
+                    valgrind
 
                     # raylib
 
@@ -67,8 +67,9 @@
                     lldb
 
                     # to test windows
-                    wine
+                    # wine
 
+                    prettierd
 
                     nil
                     nixfmt
