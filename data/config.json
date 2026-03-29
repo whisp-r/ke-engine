@@ -4,23 +4,23 @@
       "default": {
         "color": [0, 0, 0, 255],
         "font_size": 25,
-        "speed": 10
+        "speed": 4
       },
       "speakers": {
         "title": {
           "color": [100, 0, 100],
           "font_size": 50,
-          "speed": 15
+          "speed": 4
         },
         "sub_title":{
           "color": [150, 0, 150],
           "font_size": 35,
-          "speed": 10
+          "speed": 4
         },
         "dialogue_2":{
           "color": [255, 0, 150],
           "font_size": 20,
-          "speed": 7
+          "speed": 3
         }
       }
     }
