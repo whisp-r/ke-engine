@@ -15,7 +15,7 @@ raylib::Color LoadColorFromJSON(const json &colorData)
         return raylib::Color(r, g, b, a);
     }
     
-    throw std::invalid_argument("Color must be array [R,G,B] or [R,G,B,A]");
+    throw std::invalid_argument("[ERROR][Helper] Color must be array [R,G,B] or [R,G,B,A]");
 }
 
 raylib::Color GetColorFromJSON(const json &colorData, const raylib::Color &fallback)
@@ -40,7 +40,7 @@ raylib::Color GetColorFromJSON(const json &colorData, const raylib::Color &fallb
         return raylib::Color(r, g, b, a);
         
     } catch (const std::exception& e) {
-        std::cerr << "Color parsing failed, using fallback: " << e.what() << std::endl;
+        std::cerr << "[ERROR][Helper] Color parsing failed, using fallback: " << e.what() << std::endl;
         return fallback;
     }
 }
