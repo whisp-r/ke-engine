@@ -29,7 +29,7 @@ void KeEngine::Init(const std::string &itemsFile,
     }
     catch (const std::exception &e)
     {
-        std::cerr << "[KeEngine] Engine initialization failed: " << e.what() << std::endl;
+        std::cerr << "[ERROR][KeEngine] Engine initialization failed: " << e.what() << std::endl;
     }
 }
 
