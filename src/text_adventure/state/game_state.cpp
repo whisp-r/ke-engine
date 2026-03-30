@@ -26,13 +26,13 @@ bool GameState::GetFlag(const std::string &flagId) const
 {
     if (flagId.empty())
     {
-        std::cerr << "ERROR: Empty flag ID requested" << std::endl;
-        return false;
+        std::cerr << "[ERROR][GameState] Empty flag ID requested" << std::endl;
+        throw;
     }
     if (!flagRegistry.IsRegistered(flagId))
     {
-        std::cerr << "ERROR: Requested unregistered flag: " << flagId << std::endl;
-        return false;
+        std::cerr << "[ERROR][GameState] Requested unregistered flag: " << flagId << std::endl;
+        throw;
     }
 
     auto it = currentFlags.find(flagId);
@@ -59,13 +59,13 @@ void GameState::SetFlag(const std::string &flagId, const bool value)
 {
     if (flagId.empty())
     {
-        std::cerr << "ERROR: Attempted to set flag with empty ID" << std::endl;
-        return;
+        std::cerr << "[ERROR][GameState] Attempted to set flag with empty ID" << std::endl;
+        throw;
     }
     if (!flagRegistry.IsRegistered(flagId))
     {
-        std::cerr << "ERROR: Attempted to set unknown flag: " << flagId << std::endl;
-        return;
+        std::cerr << "[ERROR][GameState] Attempted to set unknown flag: " << flagId << std::endl;
+        throw;
     }
 
     std::cout << "[GameState] Set flag " << flagId << " to " << value
@@ -88,12 +88,12 @@ int GameState::GetVariable(const std::string &varId) const
     if (varId.empty())
     {
         std::cerr << "ERROR: Empty variable ID requested" << std::endl;
-        return 0;
+        throw;
     }
     if (!varRegistry.IsRegistered(varId))
     {
         std::cerr << "ERROR: Requested unregistered variable: " << varId << std::endl;
-        return 0;
+        throw;
     }
 
     auto it = currentVariables.find(varId);
@@ -110,14 +110,14 @@ void GameState::SetVariable(const std::string &varId, const int value)
 {
     if (varId.empty())
     {
-        std::cerr << "ERROR: Attempted to set variable with empty ID" << std::endl;
-        return;
+        std::cerr << "[ERROR][GameState] Attempted to set variable with empty ID" << std::endl;
+        throw;
     }
 
     if (!varRegistry.IsRegistered(varId))
     {
-        std::cerr << "ERROR: Setting unregistered variable: " << varId << std::endl;
-        return;
+        std::cerr << "[ERROR][GameState] Setting unregistered variable: " << varId << std::endl;
+        throw;
     }
 
     currentVariables[varId] = value;
@@ -128,8 +128,8 @@ void GameState::ModifyVariable(const std::string &varId, const int delta)
 {
     if (varId.empty())
     {
-        std::cerr << "ERROR: Attempted to modify variable with empty ID" << std::endl;
-        return;
+        std::cerr << "[ERROR][GameState] Attempted to modify variable with empty ID" << std::endl;
+        throw;
     }
 
     int current = GetVariable(varId);
@@ -138,9 +138,9 @@ void GameState::ModifyVariable(const std::string &varId, const int delta)
     if ((delta > 0 && current > INT_MAX - delta) ||
         (delta < 0 && current < INT_MIN - delta))
     {
-        std::cerr << "ERROR: Arithmetic overflow/underflow modifying variable: "
+        std::cerr << "[ERROR][GameState] Arithmetic overflow/underflow modifying variable: "
                   << varId << " (current: " << current << ", delta: " << delta << ")" << std::endl;
-        return;
+        throw;
     }
 
     SetVariable(varId, current + delta);
@@ -152,17 +152,17 @@ void GameState::ModifyItem(const std::string &itemId, int delta)
 {
     if (itemId.empty())
     {
-        std::cerr << "ERROR: Attempted to add item with empty ID" << std::endl;
+        std::cerr << "[ERROR][GameState] Attempted to add item with empty ID" << std::endl;
         return;
     }
     if (delta == 0)
     {
-        std::cerr << "WARNING: ModifyItem called with delta of 0 for item: " << itemId << std::endl;
+        std::cerr << "[WARNING][GameState] ModifyItem called with delta of 0 for item: " << itemId << std::endl;
         return;
     }
     if (!itemLoader.ItemExists(itemId))
     {
-        std::cerr << "ERROR: Attempted to add unknown item: " << itemId << std::endl;
+        std::cerr << "[ERROR][GameState] Attempted to add unknown item: " << itemId << std::endl;
         return;
     }
 
@@ -173,17 +173,17 @@ void GameState::ModifyEffect(const std::string &effectId, int delta)
 {
     if (effectId.empty())
     {
-        std::cerr << "ERROR: Attempted to add effect with empty ID" << std::endl;
+        std::cerr << "[ERROR][GameState] Attempted to add effect with empty ID" << std::endl;
         return;
     }
     if (delta == 0)
     {
-        std::cerr << "WARNING: ModifyEffect called with delta of 0 for item: " << effectId << std::endl;
+        std::cerr << "[WARNING][GameState] ModifyEffect called with delta of 0 for item: " << effectId << std::endl;
         return;
     }
     if (!effectLoader.EffectExists(effectId))
     {
-        std::cerr << "ERROR: Attempted to add unknown effect: " << effectId << std::endl;
+        std::cerr << "[ERROR][GameState] Attempted to add unknown effect: " << effectId << std::endl;
         return;
     }
 
@@ -194,13 +194,13 @@ void CharacterData::ModifyItem(const std::string &itemId, const int delta)
 {
     if (itemId.empty())
     {
-        std::cerr << "ERROR: Attempted to modify item with empty ID" << std::endl;
+        std::cerr << "[ERROR][GameState] Attempted to modify item with empty ID" << std::endl;
         return;
     }
     if (delta == 0)
     {
 
-        std::cerr << "WARNING: ModifyItem called with delta of 0 for item: " << itemId << std::endl;
+        std::cerr << "[WARNING][GameState] ModifyItem called with delta of 0 for item: " << itemId << std::endl;
         return;
     }
 
@@ -209,7 +209,7 @@ void CharacterData::ModifyItem(const std::string &itemId, const int delta)
     {
         if (delta < 0)
         {
-            std::cerr << "ERROR: Cannot remove " << -delta
+            std::cerr << "[ERROR][GameState] Cannot remove " << -delta
                       << " of item " << itemId << " (not in inventory)" << std::endl;
             return;
         }
@@ -218,7 +218,7 @@ void CharacterData::ModifyItem(const std::string &itemId, const int delta)
     // Check for overflow
     if (delta > 0 && inventory[itemId] > INT_MAX - delta)
     {
-        std::cerr << "ERROR: Arithmetic overflow adding item: " << itemId << std::endl;
+        std::cerr << "[ERROR][GameState] Arithmetic overflow adding item: " << itemId << std::endl;
         return;
     }
 
@@ -241,12 +241,12 @@ bool CharacterData::HasItem(const std::string &itemId, const int minQuantity) co
 {
     if (itemId.empty())
     {
-        std::cerr << "ERROR: HasItem called with empty item ID" << std::endl;
+        std::cerr << "[ERROR][GameState] HasItem called with empty item ID" << std::endl;
         return false;
     }
     if (minQuantity < 0)
     {
-        std::cerr << "ERROR: HasItem called with negative minQuantity: " << minQuantity << std::endl;
+        std::cerr << "[ERROR][GameState] HasItem called with negative minQuantity: " << minQuantity << std::endl;
         return false;
     }
 
@@ -258,7 +258,7 @@ int CharacterData::GetItemCount(const std::string &itemId) const
 {
     if (itemId.empty())
     {
-        std::cerr << "ERROR: GetItemCount called with empty item ID" << std::endl;
+        std::cerr << "[ERROR][GameState] GetItemCount called with empty item ID" << std::endl;
         return 0;
     }
 
@@ -280,13 +280,13 @@ void CharacterData::ModifyEffect(const std::string &effectId, const int delta)
 {
     if (effectId.empty())
     {
-        std::cerr << "ERROR: Attempted to modify effect with empty ID" << std::endl;
+        std::cerr << "[ERROR][GameState] Attempted to modify effect with empty ID" << std::endl;
         return;
     }
     if (delta == 0)
     {
 
-        std::cerr << "WARNING: ModifyEffect called with delta of 0 for item: " << effectId << std::endl;
+        std::cerr << "[WARNING][GameState] ModifyEffect called with delta of 0 for item: " << effectId << std::endl;
         return;
     }
 
@@ -295,7 +295,7 @@ void CharacterData::ModifyEffect(const std::string &effectId, const int delta)
     {
         if (delta < 0)
         {
-            std::cerr << "ERROR: Cannot remove " << -delta
+            std::cerr << "[ERROR][GameState] Cannot remove " << -delta
                       << " of effect " << effectId << " (not in effects)" << std::endl;
             return;
         }
@@ -304,7 +304,7 @@ void CharacterData::ModifyEffect(const std::string &effectId, const int delta)
     // Check for overflow
     if (delta > 0 && effects[effectId] > INT_MAX - delta)
     {
-        std::cerr << "ERROR: Arithmetic overflow adding effect: " << effectId << std::endl;
+        std::cerr << "[ERROR][GameState] Arithmetic overflow adding effect: " << effectId << std::endl;
         return;
     }
 
@@ -327,12 +327,12 @@ bool CharacterData::HasEffect(const std::string &effectId, const int minQuantity
 {
     if (effectId.empty())
     {
-        std::cerr << "ERROR: HasEffect called with empty effect ID" << std::endl;
+        std::cerr << "[ERROR][GameState] HasEffect called with empty effect ID" << std::endl;
         return false;
     }
     if (minQuantity < 0)
     {
-        std::cerr << "ERROR: HasEffect called with negative minQuantity: " << minQuantity << std::endl;
+        std::cerr << "[ERROR][GameState] HasEffect called with negative minQuantity: " << minQuantity << std::endl;
         return false;
     }
 
@@ -344,7 +344,7 @@ int CharacterData::GetEffectCount(const std::string &effectId) const
 {
     if (effectId.empty())
     {
-        std::cerr << "ERROR: GetItemCount called with empty item ID" << std::endl;
+        std::cerr << "[ERROR][GameState] GetItemCount called with empty item ID" << std::endl;
         return 0;
     }
 
