@@ -1,5 +1,6 @@
 #ifndef UI_MANAGER_HPP
 #define UI_MANAGER_HPP
+#pragma once
 
 #include <raylib-cpp.hpp>
 #include "game_state.hpp"

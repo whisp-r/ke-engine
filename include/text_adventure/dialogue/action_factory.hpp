@@ -1,5 +1,6 @@
 #ifndef ACTION_FACTORY_H
 #define ACTION_FACTORY_H
+#pragma once
 
 #include "json.hpp"
 #include "game_state.hpp"

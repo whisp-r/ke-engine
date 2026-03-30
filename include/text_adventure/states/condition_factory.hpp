@@ -1,3 +1,5 @@
+#ifndef CONDITION_FACTORY_H
+#define CONDITION_FACTORY_H
 #pragma once
 
 #include "condition.hpp"
@@ -8,3 +10,5 @@ class ConditionFactory
 public:
     static ConditionPtr CreateFromJSON(const nlohmann::json &data);
 };
+
+#endif

@@ -1,4 +1,7 @@
+#ifndef GAME_CONSTANTS_H
+#define GAME_CONSTANTS_H
 #pragma once
+
 #include <string>
 
 namespace GameConsts
@@ -115,3 +118,5 @@ namespace GameConsts
     }
 
 }
+
+#endif

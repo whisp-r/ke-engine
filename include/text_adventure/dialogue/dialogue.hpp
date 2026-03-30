@@ -1,5 +1,6 @@
 #ifndef DIALOGUE_NODE_H
 #define DIALOGUE_NODE_H
+#pragma once
 
 #include "rpg_text.hpp"
 #include "action_factory.hpp"
