@@ -12,14 +12,14 @@ void ConfigLoader::LoadFromFile(const std::string &filename)
 {
     std::ifstream file(filename);
     if (!file.is_open()) {
-        throw std::runtime_error("Cannot open config file: " + filename);
+        throw std::runtime_error("[ERROR][ConfigLoader] Cannot open config file: " + filename);
     }
     
     nlohmann::json data;
     try {
         data = nlohmann::json::parse(file);
     } catch (const nlohmann::json::exception& e) {
-        throw std::runtime_error("Invalid JSON in config file: " + std::string(e.what()));
+        throw std::runtime_error("[ERROR][ConfigLoader] Invalid JSON in config file: " + std::string(e.what()));
     }
     
     // load text styles
@@ -27,21 +27,21 @@ void ConfigLoader::LoadFromFile(const std::string &filename)
     
     // Check if config section exists
     if (!data.contains(config::CONFIG)) {
-        throw std::runtime_error("Missing 'config' section in " + filename);
+        throw std::runtime_error("[ERROR][ConfigLoader] Missing 'config' section in " + filename);
     }
     
     auto& config = data[config::CONFIG];
     
     // Check if text_style section exists
     if (!config.contains(config::TEXT_STYLE)) {
-        throw std::runtime_error("Missing 'text_style' section in " + filename);
+        throw std::runtime_error("[ERROR][ConfigLoader] Missing 'text_style' section in " + filename);
     }
     
     auto& textStyles = config[config::TEXT_STYLE];
     
     // Check if default style exists
     if (!textStyles.contains(config::DEFAULT)) {
-        throw std::runtime_error("Missing 'default' text style in " + filename);
+        throw std::runtime_error("[ERROR][ConfigLoader] Missing 'default' text style in " + filename);
     }
     
     // Load default style
@@ -55,7 +55,7 @@ void ConfigLoader::LoadFromFile(const std::string &filename)
         {
             // Skip empty speaker IDs
             if (speakerId.empty()) {
-                std::cerr << "WARNING: Empty speaker ID in config, skipping" << std::endl;
+                std::cerr << "[WARNING][ConfigLoader] Empty speaker ID in config, skipping" << std::endl;
                 continue;
             }
             
@@ -64,7 +64,7 @@ void ConfigLoader::LoadFromFile(const std::string &filename)
                 speakerStyle.LoadFromJSON(speakerData, defaultTextStyle);
                 speakers[speakerId] = speakerStyle;
             } catch (const std::exception& e) {
-                std::cerr << "WARNING: Failed to load style for speaker '" 
+                std::cerr << "[WARNING][ConfigLoader] Failed to load style for speaker '" 
                           << speakerId << "': " << e.what() << std::endl;
                 // Continue loading other speakers
             }

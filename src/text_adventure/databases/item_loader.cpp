@@ -28,13 +28,13 @@ const std::string &ItemDefinition::GetDescription() const
 
 void ItemLoader::LoadFromFile(const std::string &filename)
 {
-    std::cout << "ItemLoader: Loading from " << filename << std::endl;
+    std::cout << "[ItemLoader] Loading from " << filename << std::endl;
 
     // Check file exists
     if (!std::filesystem::exists(filename))
     {
         std::string error = "File not found: " + filename;
-        std::cerr << "ERROR: " << error << std::endl;
+        std::cerr << "[ERROR][ItemLoader] " << error << std::endl;
         throw std::runtime_error(error);
     }
 
@@ -42,7 +42,7 @@ void ItemLoader::LoadFromFile(const std::string &filename)
     if (!file.is_open())
     {
         std::string error = "Cannot open file: " + filename;
-        std::cerr << "ERROR: " << error << std::endl;
+        std::cerr << "[ERROR][ItemLoader] " << error << std::endl;
         throw std::runtime_error(error);
     }
 
@@ -55,14 +55,14 @@ void ItemLoader::LoadFromFile(const std::string &filename)
     catch (const nlohmann::json::parse_error &e)
     {
         std::string error = "JSON parse error in " + filename + ": " + e.what();
-        std::cerr << "ERROR: " << error << std::endl;
+        std::cerr << "[ERROR][ItemLoader] " << error << std::endl;
         throw std::runtime_error(error);
     }
 
     // Check structure
     if (!data.contains(GameConsts::state::ITEMS))
     {
-        std::cerr << "WARNING: items.json missing 'items' key" << std::endl;
+        std::cerr << "[WARNING][ItemLoader] items.json missing 'items' key" << std::endl;
         return;
     }
 
@@ -80,14 +80,15 @@ void ItemLoader::LoadFromFile(const std::string &filename)
             items.emplace(itemId, std::move(def));
             count++;
 
-            std::cout << "  Loaded: " << itemId << " -> "
+            std::cout << '\t'
+                      << "[ItemLoader] Loaded: " << itemId << " -> "
                       << items.at(itemId).GetDisplayName()
                       << " ["
                       << items.at(itemId).GetDescription()
                       << "]" << std::endl;
         }
 
-        std::cout << "ItemLoader: Successfully loaded " << count << " items" << std::endl;
+        std::cout << "[ItemLoader] Successfully loaded " << count << " items" << std::endl;
     }
 }
 
@@ -96,7 +97,7 @@ const ItemDefinition &ItemLoader::GetItem(const std::string &itemId) const
     auto it = items.find(itemId);
     if (it == items.end())
     {
-        throw std::runtime_error("Unknown item: " + itemId);
+        throw std::runtime_error("[ERROR][ItemLoader] Unknown item: " + itemId);
     }
     return it->second;
 }

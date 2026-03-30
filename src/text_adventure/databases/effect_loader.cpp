@@ -34,7 +34,7 @@ void EffectLoader::LoadFromFile(const std::string &filename)
     if (!std::filesystem::exists(filename))
     {
         std::string error = "File not found: " + filename;
-        std::cerr << "ERROR: " << error << std::endl;
+        std::cerr << "[ERROR][EffectLoader] " << error << std::endl;
         throw std::runtime_error(error);
     }
 
@@ -42,7 +42,7 @@ void EffectLoader::LoadFromFile(const std::string &filename)
     if (!file.is_open())
     {
         std::string error = "Cannot open file: " + filename;
-        std::cerr << "ERROR: " << error << std::endl;
+        std::cerr << "[ERROR][EffectLoader] " << error << std::endl;
         throw std::runtime_error(error);
     }
 
@@ -55,14 +55,14 @@ void EffectLoader::LoadFromFile(const std::string &filename)
     catch (const nlohmann::json::parse_error &e)
     {
         std::string error = "JSON parse error in " + filename + ": " + e.what();
-        std::cerr << "ERROR: " << error << std::endl;
+        std::cerr << "[ERROR][EffectLoader] " << error << std::endl;
         throw std::runtime_error(error);
     }
 
     // Check structure
     if (!data.contains(GameConsts::state::EFFECTS))
     {
-        std::cerr << "WARNING: effects.json missing 'effects' key" << std::endl;
+        std::cerr << "[WARNING][EffectLoader] effects.json missing 'effects' key" << std::endl;
         return;
     }
 
@@ -80,14 +80,15 @@ void EffectLoader::LoadFromFile(const std::string &filename)
             effects.emplace(effectId, std::move(def));
             count++;
 
-            std::cout << "  Loaded: " << effectId << " -> "
+            std::cout << '\t'
+                      << "[EffectLoader] Loaded: " << effectId << " -> "
                       << effects.at(effectId).GetDisplayName()
                       << " ["
                       << effects.at(effectId).GetDescription()
                       << "]" << std::endl;
         }
 
-        std::cout << "EffectLoader: Successfully loaded " << count << " effects" << std::endl;
+        std::cout << "[EffectLoader] Successfully loaded " << count << " effects" << std::endl;
     }
 }
 
@@ -96,7 +97,7 @@ const EffectDefinition &EffectLoader::GetEffect(const std::string &effectId) con
     auto it = effects.find(effectId);
     if (it == effects.end())
     {
-        throw std::runtime_error("Unknown effect: " + effectId);
+        throw std::runtime_error("[ERROR][EffectLoader] Unknown effect: " + effectId);
     }
     return it->second;
 }

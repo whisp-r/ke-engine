@@ -11,7 +11,7 @@ void FlagRegistry::LoadFromFile(const std::string &filename)
     std::ifstream file(filename);
     if (!file.is_open())
     {
-        throw std::runtime_error("Cannot open flags file: " + filename);
+        throw std::runtime_error("[ERROR][FileReg] Cannot open flags file: " + filename);
     }
 
     nlohmann::json data;
@@ -21,14 +21,14 @@ void FlagRegistry::LoadFromFile(const std::string &filename)
     }
     catch (const nlohmann::json::exception &e)
     {
-        throw std::runtime_error("Invalid JSON in flags file: " + std::string(e.what()));
+        throw std::runtime_error("[ERROR][FileReg] Invalid JSON in flags file: " + std::string(e.what()));
     }
 
     using namespace GameConsts;
 
     if (!data.contains(state::FLAGS))
     {
-        throw std::runtime_error("Missing 'flags' section in " + filename);
+        throw std::runtime_error("[ERROR][FileReg] Missing 'flags' section in " + filename);
     }
 
     auto &flagsData = data[state::FLAGS];
@@ -37,13 +37,13 @@ void FlagRegistry::LoadFromFile(const std::string &filename)
     {
         if (flagId.empty())
         {
-            std::cerr << "WARNING: Empty flag ID in file, skipping" << std::endl;
+            std::cerr << "[WARNING][FileReg] Empty flag ID in file, skipping" << std::endl;
             continue;
         }
 
         if (!value.is_boolean())
         {
-            std::cerr << "WARNING: Flag '" << flagId << "' value is not boolean, using false" << std::endl;
+            std::cerr << "[WARNING][FileReg] Flag '" << flagId << "' value is not boolean, using false" << std::endl;
         }
 
         bool flagValue = value.is_boolean() ? value.get<bool>() : false;
@@ -51,7 +51,8 @@ void FlagRegistry::LoadFromFile(const std::string &filename)
         registeredFlags.insert(flagId);
         defaultValues[flagId] = flagValue;
 
-        std::cout << "Registered flag: " << flagId
+        std::cout << '\t'
+                  << "[FileReg] Registered flag: " << flagId
                   << " (default: " << (flagValue ? "true" : "false") << ")" << std::endl;
     }
 }
