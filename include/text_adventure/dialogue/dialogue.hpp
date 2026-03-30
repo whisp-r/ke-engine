@@ -11,27 +11,20 @@
 
 class DialogueEntry
 {
-    RPGText text;
-    std::vector<ActionFunc> actions;
-
 public:
     DialogueEntry(RPGText text, std::vector<ActionFunc> actions);
+
     RPGText &GetText();
     const RPGText &GetText() const;
     std::vector<ActionFunc> &GetActions();
+
+private:
+    RPGText text;
+    std::vector<ActionFunc> actions;
 };
+
 class DialogueNode
 {
-
-    std::string nodeId;
-    // std::vector<std::unique_ptr<RPGText>> texts;
-    std::vector<DialogueEntry> entries;
-    std::vector<Choice> choices;
-
-    std::string defaultNextNodeId;
-
-    bool visited;
-
 public:
     DialogueNode(const std::string nodeId,
                  const std::string defaultNextNodeId);
@@ -55,6 +48,16 @@ public:
 
     // Actions
     void ExecuteEntryActions(GameState &gameState, const int index);
+
+private:
+    std::string nodeId;
+    // std::vector<std::unique_ptr<RPGText>> texts;
+    std::vector<DialogueEntry> entries;
+    std::vector<Choice> choices;
+
+    std::string defaultNextNodeId;
+
+    bool visited;
 };
 
 #endif

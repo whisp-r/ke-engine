@@ -8,15 +8,15 @@
 
 class FlagRegistry
 {
-private:
-    std::unordered_set<std::string> registeredFlags;
-    std::unordered_map<std::string, bool> defaultValues;
-
 public:
     void LoadFromFile(const std::string &filename);
 
     bool IsRegistered(const std::string &flagId) const;
-    bool GetDefaultValue(const std::string& flagId) const ;
+    bool GetDefaultValue(const std::string &flagId) const;
+
+private:
+    std::unordered_set<std::string> registeredFlags;
+    std::unordered_map<std::string, bool> defaultValues;
 };
 
 #endif

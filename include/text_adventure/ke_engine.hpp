@@ -28,17 +28,6 @@
 
 class KeEngine
 {
-    ItemLoader itemLoader;
-    FlagRegistry flagRegistry;
-    ConfigLoader configLoader;
-    VariableRegistry varRegistry;
-    EffectLoader effectLoader;
-    GameState gameState;
-    DialogueManager dialogueManager;
-    UIManager uiManager;
-
-    bool debug;
-
 public:
     KeEngine(bool debug = false);
 
@@ -62,6 +51,18 @@ public:
 
     // Input handling
     void HandleInput(); // Move your input logic here
+
+private:
+    ItemLoader itemLoader;
+    FlagRegistry flagRegistry;
+    ConfigLoader configLoader;
+    VariableRegistry varRegistry;
+    EffectLoader effectLoader;
+    GameState gameState;
+    DialogueManager dialogueManager;
+    UIManager uiManager;
+
+    bool debug;
 };
 
 #endif

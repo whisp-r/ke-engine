@@ -9,10 +9,6 @@
 
 class Choice
 {
-    std::string text;
-    std::string targetNodeId;
-    std::vector<ConditionPtr> conditions;
-
 public:
     Choice(std::string text, std::string targetNodeId);
     const std::string &GetText() const;
@@ -22,6 +18,11 @@ public:
     void AddCondition(ConditionPtr condition);
 
     bool IsAvailable(const GameState &gameState) const;
+
+private:
+    std::string text;
+    std::string targetNodeId;
+    std::vector<ConditionPtr> conditions;
 };
 
 #endif

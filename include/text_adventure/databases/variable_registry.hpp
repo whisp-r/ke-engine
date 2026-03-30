@@ -8,14 +8,14 @@
 
 class VariableRegistry
 {
-private:
-    std::unordered_set<std::string> registeredVariables;
-    std::unordered_map<std::string, int> defaultValues;
-
 public:
     void LoadFromFile(const std::string &filename);
     bool IsRegistered(const std::string &varId) const;
     int GetDefaultValue(const std::string &varId) const;
+
+private:
+    std::unordered_set<std::string> registeredVariables;
+    std::unordered_map<std::string, int> defaultValues;
 };
 
 #endif

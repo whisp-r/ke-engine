@@ -7,27 +7,29 @@
 
 class EffectDefinition
 {
-    std::string id;
-    std::string displayName;
-    std::string description;
-
 public:
     EffectDefinition(std::string id,
-                   std::string displayName,
-                   std::string description);
+                     std::string displayName,
+                     std::string description);
     const std::string &GetId() const;
     const std::string &GetDisplayName() const;
     const std::string &GetDescription() const;
+
+private:
+    std::string id;
+    std::string displayName;
+    std::string description;
 };
 
 class EffectLoader
 {
-    std::unordered_map<std::string, EffectDefinition> effects;
-
 public:
     void LoadFromFile(const std::string &filename);
     const EffectDefinition &GetEffect(const std::string &effectId) const;
     bool EffectExists(const std::string &effectId) const;
+
+private:
+    std::unordered_map<std::string, EffectDefinition> effects;
 };
 
 #endif

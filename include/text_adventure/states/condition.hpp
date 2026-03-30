@@ -20,11 +20,6 @@ using ConditionPtr = std::unique_ptr<Condition>;
 
 class ItemCondition : public Condition
 {
-private:
-    std::string itemId;
-    int quantity;
-    std::string comparison;
-
 public:
     ItemCondition(const std::string &itemId,
                   int quantity,
@@ -32,15 +27,15 @@ public:
 
     bool Evaluate(const GameState &gameState) const override;
     std::unique_ptr<Condition> Clone() const override;
+
+private:
+    std::string itemId;
+    int quantity;
+    std::string comparison;
 };
 
 class FlagCondition : public Condition
 {
-private:
-    std::string flagId;
-    bool value;
-    std::string comparison;
-
 public:
     FlagCondition(const std::string &flagId,
                   const bool value,
@@ -48,15 +43,15 @@ public:
 
     bool Evaluate(const GameState &gameState) const override;
     std::unique_ptr<Condition> Clone() const override;
+
+private:
+    std::string flagId;
+    bool value;
+    std::string comparison;
 };
 
 class VariableCondition : public Condition
 {
-private:
-    std::string varId;
-    int value;
-    std::string comparison;
-
 public:
     VariableCondition(const std::string &varId,
                       const int value,
@@ -64,15 +59,15 @@ public:
 
     bool Evaluate(const GameState &gameState) const override;
     std::unique_ptr<Condition> Clone() const override;
+
+private:
+    std::string varId;
+    int value;
+    std::string comparison;
 };
 
 class EffectCondition : public Condition
 {
-private:
-    std::string effectId;
-    int stacks;
-    std::string comparison;
-
 public:
     EffectCondition(const std::string &effectId,
                     const int stacks,
@@ -80,6 +75,11 @@ public:
 
     bool Evaluate(const GameState &gameState) const override;
     std::unique_ptr<Condition> Clone() const override;
+
+private:
+    std::string effectId;
+    int stacks;
+    std::string comparison;
 };
 
 #endif

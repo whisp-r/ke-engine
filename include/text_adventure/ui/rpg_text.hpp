@@ -8,14 +8,6 @@
 
 class RPGText : public raylib::Text
 {
-    std::string fullText;
-
-    std::size_t framesCounter = 0;
-    unsigned short speed;
-
-    bool isPaused = false;
-    bool isComplete = false;
-
 public:
     RPGText(const std::string &text,
             float fontSize,
@@ -38,6 +30,15 @@ public:
     void SetSpeed(unsigned short newSpeed);
 
     std::string GetVisibleText() const;
+
+private:
+    std::string fullText;
+
+    std::size_t framesCounter = 0;
+    unsigned short speed;
+
+    bool isPaused = false;
+    bool isComplete = false;
 };
 
 #endif

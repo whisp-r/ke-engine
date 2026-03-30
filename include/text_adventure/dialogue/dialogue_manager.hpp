@@ -14,6 +14,35 @@
 
 class DialogueManager
 {
+public:
+    DialogueManager(GameState &state);
+
+    void LoadStory(const std::string &storyFile,
+                   const std::string &configFile);
+    void LoadFromFile(const std::string &filename);
+
+    DialogueNode *GetNode(const std::string &nodeId);
+    DialogueNode *GetCurrentNode();
+
+    void SetStartNode(const std::string &nodeId);
+    void Update(); // Call each frame
+    void Advance();
+
+    // Choice handling
+    const std::vector<Choice> &GetChoices() const;
+    int GetChoicesCount() const;
+    void SelectChoice(int choiceIndex);
+    void SelectChoice(const std::string &choiceText);
+
+    // getters for ui
+    RPGText &GetCurrentText() const;
+    int GetCurrentTextIndex() const;
+    bool isShowingChoices() const;
+
+    // Navigation
+    void GoToNode(const std::string &nodeId);
+
+private:
     ConfigLoader config;
     ActionFactory actionFactory;
     GameState &gameState;
@@ -47,34 +76,6 @@ class DialogueManager
 
     void LoadChoiceConditions(const nlohmann::json &conditionsData,
                               Choice &choice);
-
-public:
-    DialogueManager(GameState &state);
-
-    void LoadStory(const std::string &storyFile,
-                   const std::string &configFile);
-    void LoadFromFile(const std::string &filename);
-
-    DialogueNode *GetNode(const std::string &nodeId);
-    DialogueNode *GetCurrentNode();
-
-    void SetStartNode(const std::string &nodeId);
-    void Update(); // Call each frame
-    void Advance();
-
-    // Choice handling
-    const std::vector<Choice> &GetChoices() const;
-    int GetChoicesCount() const;
-    void SelectChoice(int choiceIndex);
-    void SelectChoice(const std::string &choiceText);
-
-    // getters for ui
-    RPGText &GetCurrentText() const;
-    int GetCurrentTextIndex() const;
-    bool isShowingChoices() const;
-
-    // Navigation
-    void GoToNode(const std::string &nodeId);
 };
 
 #endif

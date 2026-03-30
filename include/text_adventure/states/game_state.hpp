@@ -12,9 +12,6 @@
 
 class CharacterData
 {
-    std::unordered_map<std::string, int> inventory;
-    std::unordered_map<std::string, int> effects;
-
 public:
     void ModifyItem(const std::string &itemId, const int delta);
     bool HasItem(const std::string &itemId, const int minQuantity = 1) const;
@@ -27,24 +24,14 @@ public:
     int GetEffectCount(const std::string &effectId) const;
     const std::unordered_map<std::string, int> &GetEffects() const;
     void ClearEffects();
+
+private:
+    std::unordered_map<std::string, int> inventory;
+    std::unordered_map<std::string, int> effects;
 };
+
 class GameState
 {
-    FlagRegistry &flagRegistry;
-    ItemLoader &itemLoader;
-    VariableRegistry &varRegistry;
-    EffectLoader &effectLoader;
-
-    std::unordered_map<std::string, bool> currentFlags;
-    std::unordered_map<std::string, int> currentVariables;
-
-    // std::unordered_map<std::string, LocationInfo> locations;
-    // std::string currentLocationId;
-
-    // std::unordered_map<std::string, CharacterData> characters;
-    CharacterData player;
-    std::string currentCharacterId;
-
 public:
     GameState(FlagRegistry &flagRegistry,
               ItemLoader &itemLoader,
@@ -73,6 +60,21 @@ public:
     const std::unordered_map<std::string, int> &GetCurrentVariables() const;
 
     // LocationInfo &currentLocation();
+private:
+    FlagRegistry &flagRegistry;
+    ItemLoader &itemLoader;
+    VariableRegistry &varRegistry;
+    EffectLoader &effectLoader;
+
+    std::unordered_map<std::string, bool> currentFlags;
+    std::unordered_map<std::string, int> currentVariables;
+
+    // std::unordered_map<std::string, LocationInfo> locations;
+    // std::string currentLocationId;
+
+    // std::unordered_map<std::string, CharacterData> characters;
+    CharacterData player;
+    std::string currentCharacterId;
 };
 
 #endif

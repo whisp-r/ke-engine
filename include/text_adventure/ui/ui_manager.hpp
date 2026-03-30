@@ -8,6 +8,23 @@
 
 class UIManager
 {
+public:
+    UIManager(GameState &gameState, DialogueManager &dialogueManager, bool debug = false);
+
+    void SetLineSpacingMultiplier(float multiplier) { lineSpacingMultiplier = multiplier; }
+    float GetLineSpacingMultiplier() const { return lineSpacingMultiplier; }
+
+    // Main drawing methods
+    void Draw();
+
+    // Input handling
+    void HandleInput();
+    bool HandleChoiceInput();
+
+    // Toggle debug info
+    void ToggleDebugInfo() { showDebugInfo = !showDebugInfo; }
+    bool IsDebugInfoVisible() const { return showDebugInfo; }
+
 private:
     // References to game systems
     GameState &gameState;
@@ -47,24 +64,6 @@ private:
     raylib::Color effectsColor;
     raylib::Color variableColor;
 
-public:
-    UIManager(GameState &gameState, DialogueManager &dialogueManager, bool debug = false);
-
-    void SetLineSpacingMultiplier(float multiplier) { lineSpacingMultiplier = multiplier; }
-    float GetLineSpacingMultiplier() const { return lineSpacingMultiplier; }
-
-    // Main drawing methods
-    void Draw();
-
-    // Input handling
-    void HandleInput();
-    bool HandleChoiceInput();
-
-    // Toggle debug info
-    void ToggleDebugInfo() { showDebugInfo = !showDebugInfo; }
-    bool IsDebugInfoVisible() const { return showDebugInfo; }
-
-private:
     // Drawing components
     void DrawCurrentDialogue();
     void DrawChoices();
