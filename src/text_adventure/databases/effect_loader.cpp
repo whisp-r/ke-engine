@@ -28,7 +28,7 @@ const std::string &EffectDefinition::GetDescription() const
 
 void EffectLoader::LoadFromFile(const std::string &filename)
 {
-    std::cout << "EffectLoader: Loading from " << filename << std::endl;
+    std::cout << "[EffectLoader] Loading from " << filename << std::endl;
 
     // Check file exists
     if (!std::filesystem::exists(filename))
