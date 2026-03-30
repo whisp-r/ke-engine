@@ -16,20 +16,6 @@ void DialogueNode::AddEntry(RPGText text, std::vector<ActionFunc> actions)
     entries.emplace_back(std::move(text), std::move(actions));
 }
 
-void DialogueNode::AddChoice(const std::string &text, const std::string &target)
-{
-    if (text.empty())
-    {
-        std::cerr << "[WARNING][DialogueNode] Adding choice with empty text in node: " << nodeId << std::endl;
-    }
-    if (target.empty())
-    {
-        std::cerr << "[WARNING][DialogueNode] Adding choice with empty target in node: " << nodeId << std::endl;
-    }
-
-    choices.emplace_back(text, target);
-}
-
 const std::string &DialogueNode::GetNodeId() const
 {
     return nodeId;
