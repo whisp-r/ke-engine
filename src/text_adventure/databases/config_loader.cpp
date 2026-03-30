@@ -11,63 +11,75 @@
 void ConfigLoader::LoadFromFile(const std::string &filename)
 {
     std::ifstream file(filename);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         throw std::runtime_error("[ERROR][ConfigLoader] Cannot open config file: " + filename);
     }
-    
+
     nlohmann::json data;
-    try {
+    try
+    {
         data = nlohmann::json::parse(file);
-    } catch (const nlohmann::json::exception& e) {
+    }
+    catch (const nlohmann::json::exception &e)
+    {
         throw std::runtime_error("[ERROR][ConfigLoader] Invalid JSON in config file: " + std::string(e.what()));
     }
-    
+
     // load text styles
     using namespace GameConsts;
-    
+
     // Check if config section exists
-    if (!data.contains(config::CONFIG)) {
+    if (!data.contains(config::CONFIG))
+    {
         throw std::runtime_error("[ERROR][ConfigLoader] Missing 'config' section in " + filename);
     }
-    
-    auto& config = data[config::CONFIG];
-    
+
+    auto &config = data[config::CONFIG];
+
     // Check if text_style section exists
-    if (!config.contains(config::TEXT_STYLE)) {
+    if (!config.contains(config::TEXT_STYLE))
+    {
         throw std::runtime_error("[ERROR][ConfigLoader] Missing 'text_style' section in " + filename);
     }
-    
-    auto& textStyles = config[config::TEXT_STYLE];
-    
+
+    auto &textStyles = config[config::TEXT_STYLE];
+
     // Check if default style exists
-    if (!textStyles.contains(config::DEFAULT)) {
+    if (!textStyles.contains(config::DEFAULT))
+    {
         throw std::runtime_error("[ERROR][ConfigLoader] Missing 'default' text style in " + filename);
     }
-    
+
     // Load default style
     defaultTextStyle.LoadFromJSON(textStyles[config::DEFAULT], TextStyle());
-    
+
     // Load speaker styles (optional)
-    if (textStyles.contains(config::SPEAKERS)) {
-        auto& speakersData = textStyles[config::SPEAKERS];
-        
+    if (textStyles.contains(config::SPEAKERS))
+    {
+        auto &speakersData = textStyles[config::SPEAKERS];
+
         for (auto &[speakerId, speakerData] : speakersData.items())
         {
             // Skip empty speaker IDs
-            if (speakerId.empty()) {
+            if (speakerId.empty())
+            {
                 std::cerr << "[WARNING][ConfigLoader] Empty speaker ID in config, skipping" << std::endl;
                 continue;
             }
-            
-            try {
-                TextStyle speakerStyle;
-                speakerStyle.LoadFromJSON(speakerData, defaultTextStyle);
-                speakers[speakerId] = speakerStyle;
-            } catch (const std::exception& e) {
-                std::cerr << "[WARNING][ConfigLoader] Failed to load style for speaker '" 
-                          << speakerId << "': " << e.what() << std::endl;
-                // Continue loading other speakers
-            }
+
+            // try
+            // {
+            TextStyle speakerStyle;
+            speakerStyle.LoadFromJSON(speakerData, defaultTextStyle);
+            speakers[speakerId] = speakerStyle;
+            // }
+            // catch (const std::exception &e)
+            // {
+            //     std::cerr << "[WARNING][ConfigLoader] Failed to load style for speaker '"
+            //               << speakerId << "': " << e.what() << std::endl;
+            //     // Continue loading other speakers
+            // }
         }
     }
 }
@@ -84,6 +96,10 @@ const TextStyle &ConfigLoader::GetSpeakerStyle(const std::string &speaker) const
     {
         return it->second;
     }
+    
+    if (!speaker.empty())
+        std::cerr << "[WARNING][ConfigLoader] Failed to find style for speaker " << speaker << std::endl;
+
     return GetDefaultTextStyle();
 }
 
